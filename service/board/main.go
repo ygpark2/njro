@@ -1,13 +1,9 @@
 package main
 
 import (
-	"time"
-
-	"github.com/asim/go-micro/v3/auth"
 	"github.com/asim/go-micro/v3/client"
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/server"
-	"github.com/google/uuid"
 
 	"github.com/asim/go-micro/v3"
 
@@ -19,6 +15,8 @@ import (
 	logWrapper "github.com/ygpark2/mboard/shared/wrapper/log"
 
 	"github.com/ygpark2/mboard/service/board/registry"
+
+	boardPB "github.com/ygpark2/mboard/service/board/proto/board"
 )
 
 func main() {
@@ -60,7 +58,7 @@ func main() {
 			return
 		}),
 
-		micro.WrapHandler(ctn.BoardHandler),
+		// micro.WrapHandler(ctn.BoardHandler),
 	)
 
 	service.Init(
@@ -81,52 +79,10 @@ func main() {
 		})
 	*/
 
+	boardPB.RegisterBoardServiceHandler(service.Server(), ctn.BoardHandler)
+
 	// Run service
 	if err := service.Run(); err != nil {
 		logger.Fatal(err)
 	}
-}
-
-// setupAuthForService generates auth credentials for the service
-func setupAuthForService(accID string, accSecret string) error {
-	// opts := auth.DefaultAuth.Options()
-
-	// extract the account creds from options, these can be set by flags
-	// accID := ID
-	// accSecret := Secret
-
-	// if no credentials were provided, self generate an account
-	if len(accID) == 0 || len(accSecret) == 0 {
-		opts := []auth.GenerateOption{
-			auth.WithType("service"),
-			auth.WithScopes("service"),
-		}
-
-		acc, err := auth.Generate(uuid.New().String(), opts...)
-		if err != nil {
-			return err
-		}
-		if logger.V(logger.DebugLevel, logger.DefaultLogger) {
-			logger.Debugf("Auth [%v] Generated an auth account", auth.DefaultAuth.String())
-		}
-
-		accID = acc.ID
-		accSecret = acc.Secret
-	}
-
-	// generate the first token
-	token, err := auth.Token(
-		auth.WithCredentials(accID, accSecret),
-		auth.WithExpiry(time.Minute*10),
-	)
-	if err != nil {
-		return err
-	}
-
-	// set the credentials and token in auth options
-	auth.DefaultAuth.Init(
-		auth.ClientToken(token),
-		auth.Credentials(accID, accSecret),
-	)
-	return nil
 }

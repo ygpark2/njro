@@ -11,10 +11,10 @@ import (
 	"github.com/rs/zerolog"
 	uuid "github.com/satori/go.uuid"
 
-	myErrors "github.com/xmlking/micro-starter-kit/shared/errors"
 	account_entities "github.com/ygpark2/mboard/service/account/proto/entities"
 	profilePB "github.com/ygpark2/mboard/service/account/proto/profile"
 	"github.com/ygpark2/mboard/service/account/repository"
+	njErrors "github.com/ygpark2/mboard/shared/errors"
 )
 
 // ProfileHandler struct
@@ -42,7 +42,7 @@ func (ph *profileHandler) List(ctx context.Context, req *profilePB.ListRequest, 
 
 	total, profiles, err := ph.profileRepository.List(req.Limit.GetValue(), req.Page.GetValue(), req.Sort.GetValue(), &model)
 	if err != nil {
-		return myErrors.AppError(myErrors.DBE, err)
+		return njErrors.AppError(njErrors.DBE, err)
 	}
 	rsp.Total = total
 	// newProfiles := make([]*pb.Profile, len(profiles))
@@ -73,16 +73,16 @@ func (ph *profileHandler) Get(ctx context.Context, req *profilePB.GetRequest, rs
 		println(req.GetId())
 		profile, err = ph.profileRepository.Get(id.ProfileId.GetValue())
 	case nil:
-		return myErrors.ValidationError("mkit.service.account.profile.get", "validation error: Missing Id")
+		return njErrors.ValidationError("mkit.service.account.profile.get", "validation error: Missing Id")
 	default:
-		return myErrors.ValidationError("mkit.service.account.profile.get", "validation error: Profile.Id has unexpected type %T", id)
+		return njErrors.ValidationError("mkit.service.account.profile.get", "validation error: Profile.Id has unexpected type %T", id)
 	}
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			rsp.Result = nil
 			return nil
 		}
-		return myErrors.AppError(myErrors.DBE, err)
+		return njErrors.AppError(njErrors.DBE, err)
 	}
 
 	tempProfile, _ := profile.ToPB(ctx)
@@ -102,7 +102,7 @@ func (ph *profileHandler) Create(ctx context.Context, req *profilePB.CreateReque
 		var t time.Time
 		var err error
 		if t, err = ptypes1.Timestamp(req.Birthday); err != nil {
-			return myErrors.ValidationError("mkit.service.account.profile.rceate", "Invalid birthday: %v", err)
+			return njErrors.ValidationError("mkit.service.account.profile.rceate", "Invalid birthday: %v", err)
 		}
 		model.Birthday = &t
 	}
@@ -110,7 +110,7 @@ func (ph *profileHandler) Create(ctx context.Context, req *profilePB.CreateReque
 	model.PreferredTheme = &preferredTheme
 
 	if err := ph.profileRepository.Create(&model); err != nil {
-		return myErrors.AppError(myErrors.DBE, err)
+		return njErrors.AppError(njErrors.DBE, err)
 	}
 	return nil
 }

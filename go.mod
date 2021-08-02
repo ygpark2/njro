@@ -4,13 +4,11 @@ go 1.16
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
-	github.com/asim/go-micro/cmd/protoc-gen-micro/v3 v3.0.0-20210726052521-c3107e6843e2 // indirect
 	github.com/asim/go-micro/v3 v3.5.2
 	github.com/envoyproxy/protoc-gen-validate v0.3.0
 	github.com/gofrs/uuid v4.0.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.5.2
-	github.com/google/uuid v1.2.0
 	github.com/google/wire v0.5.0
 	github.com/gosimple/slug v1.9.0
 	github.com/infobloxopen/atlas-app-toolkit v0.22.1
