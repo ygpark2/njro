@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package mkit.service.board.entities.v1;
+
+option go_package = "github.com/ygpark2/mboard/service/board/proto/entities";
+option java_multiple_files = true;
+option java_package = "mkit.service.board.entities.v1";
+
+// import "shared/proto/common/common.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "options/gorm.proto";
+import "types/types.proto";
+import "validate/validate.proto";
+
+// Board Entity
+message Board {
+    option (validate.disabled) = true;
+    option (gorm.opts) = { ormable: true };
+
+    // gorm.types.UUID id                      = 1  [(gorm.field).tag = {
+    // type: "uuid", primary_key: true, default: "uuid_generate_v4()" }]; //
+    // primary key
+
+    gorm.types.UUID id = 1 [(gorm.field).tag = {
+      type: "uuid"
+      not_null: true
+      unique: true
+      primary_key: true
+    }]; // primary key
+    google.protobuf.Timestamp created_at = 2 [(gorm.field).tag = { not_null: true }];
+    google.protobuf.Timestamp updated_at = 3 [(gorm.field).tag = { not_null: true }];
+    google.protobuf.Timestamp deleted_at = 4 [(gorm.field).tag = { index: "idx_boards_deleted_at" }];
+    google.protobuf.StringValue title = 5 [(gorm.field).tag = { size: 1000 not_null: true }];
+    google.protobuf.StringValue mobile_title = 6 [(gorm.field).tag = { size: 500 not_null: true }];
+    google.protobuf.UInt32Value order = 7 [(gorm.field).tag = { not_null: true }];
+    google.protobuf.BoolValue search = 8 [(gorm.field).tag = { not_null: true }];
+    string description = 9 [(gorm.field).tag = { not_null: true }];
+    repeated string notices = 10 [(gorm.field).tag = { not_null: false }];
+    uint32 total_posts = 11 [(gorm.field).drop = true];
+    uint32 total_comments = 12 [(gorm.field).drop = true];
+}

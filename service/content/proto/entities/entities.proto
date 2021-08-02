@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package mkit.service.content.entities.v1;
+
+option go_package = "github.com/ygpark2/mboard/service/content/proto/entities";
+option java_multiple_files = true;
+option java_package = "mkit.service.content.entities.v1";
+
+// import "shared/proto/common/common.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "options/gorm.proto";
+import "types/types.proto";
+import "validate/validate.proto";
+
+// Content Entity
+message Content {
+    option (validate.disabled) = true;
+    option (gorm.opts) = {
+    ormable: true
+  };
+    // gorm.types.UUID id                      = 1  [(gorm.field).tag = {
+    // type: "uuid", primary_key: true, default: "uuid_generate_v4()" }]; //
+    // primary key
+
+    gorm.types.UUID id = 1 [(gorm.field).tag = {
+    type: "uuid"
+    not_null: true
+    unique: true
+    primary_key: true
+  }]; // primary key
+    google.protobuf.Timestamp created_at = 2 [(gorm.field).tag = { not_null: true }];
+    google.protobuf.Timestamp updated_at = 3 [(gorm.field).tag = { not_null: true }];
+    google.protobuf.Timestamp deleted_at = 4 [(gorm.field).tag = { index: "idx_contents_deleted_at" }];
+    google.protobuf.StringValue board_id = 5 [(gorm.field).tag = { index: "idx_board", not_null: true }];
+    google.protobuf.StringValue post_id = 6 [(gorm.field).tag = { index: "idx_post", not_null: true }];
+    google.protobuf.StringValue comment_id = 7 [(gorm.field).tag = { index: "idx_comment", not_null: true }];
+    string content = 8 [(gorm.field).tag = { not_null: true }];
+}
