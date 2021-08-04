@@ -3,10 +3,10 @@ package handler
 import (
 	"context"
 
+	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/auth"
 	"github.com/asim/go-micro/v3/errors"
 	"github.com/asim/go-micro/v3/logger"
-	"github.com/micro/micro/v3/service"
 
 	uuid "github.com/satori/go.uuid"
 	"github.com/thoas/go-funk"
@@ -21,11 +21,11 @@ import (
 // boardHandler struct
 type BoardHandler struct {
 	boardRepository repository.BoardRepository
-	event           *service.Event
+	event           *micro.Event
 }
 
 // NewBoardHandler returns an instance of `BoardServiceHandler`.
-func NewBoardHandler(repo repository.BoardRepository, eve *service.Event) boardPB.BoardServiceHandler {
+func NewBoardHandler(repo repository.BoardRepository, eve *micro.Event) boardPB.BoardServiceHandler {
 	return &BoardHandler{
 		boardRepository: repo,
 		event:           eve,

@@ -7,9 +7,9 @@ import (
 	context "context"
 	fmt "fmt"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	
-	_ "github.com/golang/protobuf/ptypes/timestamp"
-	_ "github.com/golang/protobuf/ptypes/wrappers"
+
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/infobloxopen/protoc-gen-gorm/options"
 	_ "github.com/infobloxopen/protoc-gen-gorm/types"
 	math "math"

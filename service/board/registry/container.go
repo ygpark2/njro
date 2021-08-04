@@ -1,7 +1,7 @@
 package registry
 
 import (
-	"github.com/micro/micro/v3/service/logger"
+	"github.com/asim/go-micro/v3/logger"
 	"github.com/ygpark2/mboard/service/board/repository"
 	"github.com/ygpark2/mboard/shared/database"
 

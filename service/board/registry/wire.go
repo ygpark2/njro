@@ -5,7 +5,7 @@ package registry
 import (
 	"github.com/google/wire"
 
-	"github.com/micro/micro/v3/service"
+	"github.com/asim/go-micro/v3"
 
 	"github.com/ygpark2/mboard/service/board/handler"
 	"github.com/ygpark2/mboard/shared/config"
@@ -21,7 +21,7 @@ func NewContainer() *Container {
 	// wire.NewSet()
 
 	panic(wire.Build(
-		wire.Struct(new(service.Event)),
+		wire.Struct(new(micro.Event)),
 		// wire.Value(service.Event{}),
 		// wire.Value(cfg),
 		config.GetConfig,
