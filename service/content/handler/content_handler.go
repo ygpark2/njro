@@ -5,9 +5,7 @@ import (
 
 	"github.com/micro/micro/v3/service/logger"
 
-	content_entities "github.com/ygpark2/mboard/service/content/proto/entities"
-	contentPB "github.com/ygpark2/mboard/service/content/proto/content"
-	"github.com/ygpark2/mboard/service/content/repository"
+	contentPB "github.com/ygpark2/njro/service/content/proto/content"
 )
 
 type ContentHandler struct{}

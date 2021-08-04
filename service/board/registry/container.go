@@ -2,12 +2,12 @@ package registry
 
 import (
 	"github.com/asim/go-micro/v3/logger"
-	"github.com/ygpark2/mboard/service/board/repository"
-	"github.com/ygpark2/mboard/shared/database"
+	"github.com/ygpark2/njro/service/board/repository"
+	"github.com/ygpark2/njro/shared/database"
 
-	boardPB "github.com/ygpark2/mboard/service/board/proto/board"
-	board_entities "github.com/ygpark2/mboard/service/board/proto/entities"
-	configPB "github.com/ygpark2/mboard/shared/proto/config"
+	boardPB "github.com/ygpark2/njro/service/board/proto/board"
+	board_entities "github.com/ygpark2/njro/service/board/proto/entities"
+	configPB "github.com/ygpark2/njro/shared/proto/config"
 )
 
 // Container - provide di Container

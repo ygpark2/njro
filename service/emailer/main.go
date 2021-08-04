@@ -5,14 +5,15 @@ import (
 	"github.com/micro/micro/v3/service/server"
 	"github.com/rs/zerolog/log"
 
-	"github.com/ygpark2/mboard/shared/constants"
+	"github.com/ygpark2/njro/shared/constants"
 
-	"github.com/ygpark2/mboard/service/emailer/registry"
-	"github.com/ygpark2/mboard/shared/config"
-	// myMicro "github.com/ygpark2/mboard/shared/util/micro"
-	logWrapper "github.com/ygpark2/mboard/shared/wrapper/log"
-	// transWrapper "github.com/ygpark2/mboard/shared/wrapper/transaction"
-	validatorWrapper "github.com/ygpark2/mboard/shared/wrapper/validator"
+	"github.com/ygpark2/njro/service/emailer/registry"
+	"github.com/ygpark2/njro/shared/config"
+
+	// myMicro "github.com/ygpark2/njro/shared/util/micro"
+	logWrapper "github.com/ygpark2/njro/shared/wrapper/log"
+	// transWrapper "github.com/ygpark2/njro/shared/wrapper/transaction"
+	validatorWrapper "github.com/ygpark2/njro/shared/wrapper/validator"
 )
 
 func main() {
@@ -59,10 +60,10 @@ func main() {
 
 	if cfg.Features.Translogs.Enabled {
 		/*
-		topic := cfg.Features.Translogs.Topic
-		publisher := service.NewEvent(topic, service.Client())
-		handlerWrappers = append(handlerWrappers, transWrapper.NewHandlerWrapper(publisher))
-		subscriberWrappers = append(subscriberWrappers, transWrapper.NewSubscriberWrapper(publisher))
+			topic := cfg.Features.Translogs.Topic
+			publisher := service.NewEvent(topic, service.Client())
+			handlerWrappers = append(handlerWrappers, transWrapper.NewHandlerWrapper(publisher))
+			subscriberWrappers = append(subscriberWrappers, transWrapper.NewSubscriberWrapper(publisher))
 		*/
 	}
 

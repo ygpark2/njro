@@ -8,7 +8,7 @@ import (
 	"github.com/micro/micro/v3/service/store"
 	"github.com/rs/zerolog/log"
 
-	transactionPB "github.com/ygpark2/mboard/service/recorder/proto/transaction"
+	transactionPB "github.com/ygpark2/njro/service/recorder/proto/transaction"
 )
 
 // TransactionRepository interface

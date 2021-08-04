@@ -9,14 +9,14 @@ import (
 
 	// tags "github.com/ygpark2/services/tags/proto"
 
-	"github.com/ygpark2/mboard/shared/config"
-	"github.com/ygpark2/mboard/shared/constants"
+	"github.com/ygpark2/njro/shared/config"
+	"github.com/ygpark2/njro/shared/constants"
 
-	logWrapper "github.com/ygpark2/mboard/shared/wrapper/log"
+	logWrapper "github.com/ygpark2/njro/shared/wrapper/log"
 
-	"github.com/ygpark2/mboard/service/board/registry"
+	"github.com/ygpark2/njro/service/board/registry"
 
-	boardPB "github.com/ygpark2/mboard/service/board/proto/board"
+	boardPB "github.com/ygpark2/njro/service/board/proto/board"
 )
 
 func main() {

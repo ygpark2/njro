@@ -6,5 +6,5 @@
 // add 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 
 // set connection settings in congig.yaml
-// depends on "github.com/ygpark2/mboard/shared/config"
+// depends on "github.com/ygpark2/njro/shared/config"
 package database

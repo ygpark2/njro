@@ -6,10 +6,10 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/sarulabs/di/v2"
 
-	"github.com/ygpark2/mboard/service/recorder/handler"
-	"github.com/ygpark2/mboard/service/recorder/repository"
-	"github.com/ygpark2/mboard/service/recorder/subscriber"
-	configPB "github.com/ygpark2/mboard/shared/proto/config"
+	"github.com/ygpark2/njro/service/recorder/handler"
+	"github.com/ygpark2/njro/service/recorder/repository"
+	"github.com/ygpark2/njro/service/recorder/subscriber"
+	configPB "github.com/ygpark2/njro/shared/proto/config"
 )
 
 // Container - provide di Container

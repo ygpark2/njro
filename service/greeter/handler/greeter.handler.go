@@ -1,11 +1,11 @@
 package handler
 
 import (
-    "context"
+	"context"
 
-    "github.com/rs/zerolog/log"
+	"github.com/rs/zerolog/log"
 
-    greeterPB "github.com/ygpark2/mboard/service/greeter/proto/greeter"
+	greeterPB "github.com/ygpark2/njro/service/greeter/proto/greeter"
 )
 
 // Greeter struct
@@ -13,12 +13,12 @@ type greeterHandler struct{}
 
 // NewUserHandler returns an instance of `UserServiceHandler`.
 func NewGreeterHandler() greeterPB.GreeterServiceHandler {
-    return &greeterHandler{}
+	return &greeterHandler{}
 }
 
 // Hello method
 func (s *greeterHandler) Hello(ctx context.Context, req *greeterPB.HelloRequest, rsp *greeterPB.HelloResponse) error {
-    log.Info().Msg("Received Greeter.Hello request")
-    rsp.Msg = "Hello " + req.Name
-    return nil
+	log.Info().Msg("Received Greeter.Hello request")
+	rsp.Msg = "Hello " + req.Name
+	return nil
 }

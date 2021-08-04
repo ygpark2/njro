@@ -11,7 +11,7 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	transactionPB "github.com/ygpark2/mboard/service/recorder/proto/transaction"
+	transactionPB "github.com/ygpark2/njro/service/recorder/proto/transaction"
 )
 
 func publish(ctx context.Context, publisher events.Event, req, rsp proto.Message) (err error) {

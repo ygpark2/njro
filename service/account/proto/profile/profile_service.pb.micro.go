@@ -8,7 +8,7 @@ import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	_ "github.com/golang/protobuf/ptypes/timestamp"
 	_ "github.com/golang/protobuf/ptypes/wrappers"
-	_ "github.com/ygpark2/mboard/service/account/proto/entities"
+	_ "github.com/ygpark2/njro/service/account/proto/entities"
 	proto "google.golang.org/protobuf/proto"
 	math "math"
 )

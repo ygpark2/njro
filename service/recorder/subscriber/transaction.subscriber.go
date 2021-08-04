@@ -8,9 +8,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 
-	transactionPB "github.com/ygpark2/mboard/service/recorder/proto/transaction"
-	"github.com/ygpark2/mboard/service/recorder/repository"
-	"github.com/ygpark2/mboard/shared/constants"
+	transactionPB "github.com/ygpark2/njro/service/recorder/proto/transaction"
+	"github.com/ygpark2/njro/service/recorder/repository"
+	"github.com/ygpark2/njro/shared/constants"
 )
 
 type TransactionSubscriber struct {

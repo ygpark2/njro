@@ -11,10 +11,10 @@ import (
 	"github.com/rs/zerolog"
 	uuid "github.com/satori/go.uuid"
 
-	account_entities "github.com/ygpark2/mboard/service/account/proto/entities"
-	profilePB "github.com/ygpark2/mboard/service/account/proto/profile"
-	"github.com/ygpark2/mboard/service/account/repository"
-	njErrors "github.com/ygpark2/mboard/shared/errors"
+	account_entities "github.com/ygpark2/njro/service/account/proto/entities"
+	profilePB "github.com/ygpark2/njro/service/account/proto/profile"
+	"github.com/ygpark2/njro/service/account/repository"
+	njErrors "github.com/ygpark2/njro/shared/errors"
 )
 
 // ProfileHandler struct

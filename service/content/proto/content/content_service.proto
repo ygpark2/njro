@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package content;
 
-option go_package = "github.com/ygpark2/mboard/service/content/proto/content";
+option go_package = "github.com/ygpark2/njro/service/content/proto/content";
 option java_multiple_files = true;
 option java_package = "mkit.service.content.v1";
 

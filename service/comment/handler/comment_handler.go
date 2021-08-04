@@ -12,10 +12,10 @@ import (
 	"github.com/thoas/go-funk"
 	"gorm.io/gorm"
 
-	commentPB "github.com/ygpark2/mboard/service/comment/proto/comment"
-	comment_entities "github.com/ygpark2/mboard/service/comment/proto/entities"
-	"github.com/ygpark2/mboard/service/comment/repository"
-	myErrors "github.com/ygpark2/mboard/shared/errors"
+	commentPB "github.com/ygpark2/njro/service/comment/proto/comment"
+	comment_entities "github.com/ygpark2/njro/service/comment/proto/entities"
+	"github.com/ygpark2/njro/service/comment/repository"
+	myErrors "github.com/ygpark2/njro/shared/errors"
 )
 
 // commentHandler struct

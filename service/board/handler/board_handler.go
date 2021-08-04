@@ -12,10 +12,10 @@ import (
 	"github.com/thoas/go-funk"
 	"gorm.io/gorm"
 
-	boardPB "github.com/ygpark2/mboard/service/board/proto/board"
-	board_entities "github.com/ygpark2/mboard/service/board/proto/entities"
-	"github.com/ygpark2/mboard/service/board/repository"
-	myErrors "github.com/ygpark2/mboard/shared/errors"
+	boardPB "github.com/ygpark2/njro/service/board/proto/board"
+	board_entities "github.com/ygpark2/njro/service/board/proto/entities"
+	"github.com/ygpark2/njro/service/board/repository"
+	myErrors "github.com/ygpark2/njro/shared/errors"
 )
 
 // boardHandler struct

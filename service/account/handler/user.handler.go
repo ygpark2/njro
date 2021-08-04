@@ -14,11 +14,11 @@ import (
 	"github.com/thoas/go-funk"
 	"gorm.io/gorm"
 
-	account_entities "github.com/ygpark2/mboard/service/account/proto/entities"
-	userPB "github.com/ygpark2/mboard/service/account/proto/user"
-	"github.com/ygpark2/mboard/service/account/repository"
-	greeterPB "github.com/ygpark2/mboard/service/greeter/proto/greeter"
-	myErrors "github.com/ygpark2/mboard/shared/errors"
+	account_entities "github.com/ygpark2/njro/service/account/proto/entities"
+	userPB "github.com/ygpark2/njro/service/account/proto/user"
+	"github.com/ygpark2/njro/service/account/repository"
+	greeterPB "github.com/ygpark2/njro/service/greeter/proto/greeter"
+	myErrors "github.com/ygpark2/njro/shared/errors"
 )
 
 // UserHandler struct

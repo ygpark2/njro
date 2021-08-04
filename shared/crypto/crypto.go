@@ -6,7 +6,7 @@ import (
 	"crypto/rand"
 	"io"
 
-	"github.com/ygpark2/mboard/shared/util"
+	"github.com/ygpark2/njro/shared/util"
 )
 
 // AesEncrypt takes in a string, a key and returns encrypted string

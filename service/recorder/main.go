@@ -5,13 +5,14 @@ import (
 	"github.com/micro/micro/v3/service/server"
 	"github.com/rs/zerolog/log"
 
-	transactionPB "github.com/ygpark2/mboard/service/recorder/proto/transaction"
-	"github.com/ygpark2/mboard/service/recorder/registry"
-	"github.com/ygpark2/mboard/shared/config"
-	"github.com/ygpark2/mboard/shared/constants"
-	// myMicro "github.com/ygpark2/mboard/shared/util/micro"
-	logWrapper "github.com/ygpark2/mboard/shared/wrapper/log"
-	validatorWrapper "github.com/ygpark2/mboard/shared/wrapper/validator"
+	transactionPB "github.com/ygpark2/njro/service/recorder/proto/transaction"
+	"github.com/ygpark2/njro/service/recorder/registry"
+	"github.com/ygpark2/njro/shared/config"
+	"github.com/ygpark2/njro/shared/constants"
+
+	// myMicro "github.com/ygpark2/njro/shared/util/micro"
+	logWrapper "github.com/ygpark2/njro/shared/wrapper/log"
+	validatorWrapper "github.com/ygpark2/njro/shared/wrapper/validator"
 )
 
 func main() {

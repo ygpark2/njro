@@ -9,7 +9,7 @@ package board
 import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
-	entities "github.com/ygpark2/mboard/service/board/proto/entities"
+	entities "github.com/ygpark2/njro/service/board/proto/entities"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

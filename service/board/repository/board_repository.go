@@ -7,10 +7,10 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 
-	"github.com/ygpark2/mboard/shared/database"
+	"github.com/ygpark2/njro/shared/database"
 
-	board_entities "github.com/ygpark2/mboard/service/board/proto/entities"
-	configPB "github.com/ygpark2/mboard/shared/proto/config"
+	board_entities "github.com/ygpark2/njro/service/board/proto/entities"
+	configPB "github.com/ygpark2/njro/shared/proto/config"
 )
 
 // boardRepository interface

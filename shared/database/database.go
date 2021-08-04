@@ -18,7 +18,7 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	configPB "github.com/ygpark2/mboard/shared/proto/config"
+	configPB "github.com/ygpark2/njro/shared/proto/config"
 )
 
 // GetDatabaseConnection return (gorm.DB or error)

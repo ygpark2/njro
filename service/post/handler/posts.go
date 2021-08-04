@@ -11,10 +11,10 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/thoas/go-funk"
 
-	post_entities "github.com/ygpark2/mboard/service/post/proto/entities"
-	postPB "github.com/ygpark2/mboard/service/post/proto/post"
-	"github.com/ygpark2/mboard/service/post/repository"
-	myErrors "github.com/ygpark2/mboard/shared/errors"
+	post_entities "github.com/ygpark2/njro/service/post/proto/entities"
+	postPB "github.com/ygpark2/njro/service/post/proto/post"
+	"github.com/ygpark2/njro/service/post/repository"
+	myErrors "github.com/ygpark2/njro/shared/errors"
 )
 
 // Posts struct

@@ -17,7 +17,7 @@ import (
 
 	"google.golang.org/protobuf/types/known/anypb"
 
-	entities "github.com/ygpark2/mboard/service/account/proto/entities"
+	entities "github.com/ygpark2/njro/service/account/proto/entities"
 )
 
 // ensure the imports are used

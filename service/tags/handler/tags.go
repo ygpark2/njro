@@ -10,7 +10,7 @@ import (
 	"github.com/micro/micro/v3/service/errors"
 	"github.com/micro/micro/v3/service/logger"
 	gostore "github.com/micro/micro/v3/service/store"
-	pb "github.com/ygpark2/mboard/service/tags/proto"
+	pb "github.com/ygpark2/njro/service/tags/proto"
 )
 
 const (

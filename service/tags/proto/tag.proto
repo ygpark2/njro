@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package tags;
 
-option go_package = "github.com/ygpark2/mboard/service/tags/proto/tags";
+option go_package = "github.com/ygpark2/njro/service/tags/proto/tags";
 option java_multiple_files = true;
 option java_package = "mkit.service.tags.v1";
 

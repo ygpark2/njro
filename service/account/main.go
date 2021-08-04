@@ -7,19 +7,19 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"github.com/ygpark2/mboard/shared/config"
-	"github.com/ygpark2/mboard/shared/constants"
+	"github.com/ygpark2/njro/shared/config"
+	"github.com/ygpark2/njro/shared/constants"
 
-	logWrapper "github.com/ygpark2/mboard/shared/wrapper/log"
-	validatorWrapper "github.com/ygpark2/mboard/shared/wrapper/validator"
+	logWrapper "github.com/ygpark2/njro/shared/wrapper/log"
+	validatorWrapper "github.com/ygpark2/njro/shared/wrapper/validator"
 
-	"github.com/ygpark2/mboard/service/account/handler"
-	"github.com/ygpark2/mboard/service/account/registry"
-	"github.com/ygpark2/mboard/service/account/repository"
+	"github.com/ygpark2/njro/service/account/handler"
+	"github.com/ygpark2/njro/service/account/registry"
+	"github.com/ygpark2/njro/service/account/repository"
 
-	profilePB "github.com/ygpark2/mboard/service/account/proto/profile"
-	userPB "github.com/ygpark2/mboard/service/account/proto/user"
-	greeterPB "github.com/ygpark2/mboard/service/greeter/proto/greeter"
+	profilePB "github.com/ygpark2/njro/service/account/proto/profile"
+	userPB "github.com/ygpark2/njro/service/account/proto/user"
+	greeterPB "github.com/ygpark2/njro/service/greeter/proto/greeter"
 )
 
 func main() {

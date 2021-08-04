@@ -6,7 +6,7 @@ import (
 	gs "github.com/micro/micro/v3/service/server/grpc"
 	"github.com/rs/zerolog/log"
 
-	"github.com/ygpark2/mboard/shared/config"
+	"github.com/ygpark2/njro/shared/config"
 )
 
 func WithTLS() options.Option {

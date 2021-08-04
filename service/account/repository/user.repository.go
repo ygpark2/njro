@@ -7,7 +7,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 
-	account_entities "github.com/ygpark2/mboard/service/account/proto/entities"
+	account_entities "github.com/ygpark2/njro/service/account/proto/entities"
 )
 
 // UserRepository interface

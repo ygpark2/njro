@@ -5,15 +5,16 @@ import (
 	"github.com/micro/micro/v3/service/server"
 	"github.com/rs/zerolog/log"
 
-	"github.com/ygpark2/mboard/service/greeter/handler"
-	greeterPB "github.com/ygpark2/mboard/service/greeter/proto/greeter"
-	healthPB "github.com/ygpark2/mboard/service/greeter/proto/health"
-	"github.com/ygpark2/mboard/shared/config"
-	"github.com/ygpark2/mboard/shared/constants"
-	// myMicro "github.com/ygpark2/mboard/shared/util/micro"
-	logWrapper "github.com/ygpark2/mboard/shared/wrapper/log"
-	// transWrapper "github.com/ygpark2/mboard/shared/wrapper/transaction"
-	validatorWrapper "github.com/ygpark2/mboard/shared/wrapper/validator"
+	"github.com/ygpark2/njro/service/greeter/handler"
+	greeterPB "github.com/ygpark2/njro/service/greeter/proto/greeter"
+	healthPB "github.com/ygpark2/njro/service/greeter/proto/health"
+	"github.com/ygpark2/njro/shared/config"
+	"github.com/ygpark2/njro/shared/constants"
+
+	// myMicro "github.com/ygpark2/njro/shared/util/micro"
+	logWrapper "github.com/ygpark2/njro/shared/wrapper/log"
+	// transWrapper "github.com/ygpark2/njro/shared/wrapper/transaction"
+	validatorWrapper "github.com/ygpark2/njro/shared/wrapper/validator"
 )
 
 func main() {
@@ -60,10 +61,10 @@ func main() {
 
 	if cfg.Features.Translogs.Enabled {
 		/*
-		topic := cfg.Features.Translogs.Topic
-		publisher := service.NewEvent(topic, service.Client())
-		handlerWrappers = append(handlerWrappers, transWrapper.NewHandlerWrapper(publisher))
-		subscriberWrappers = append(subscriberWrappers, transWrapper.NewSubscriberWrapper(publisher))
+			topic := cfg.Features.Translogs.Topic
+			publisher := service.NewEvent(topic, service.Client())
+			handlerWrappers = append(handlerWrappers, transWrapper.NewHandlerWrapper(publisher))
+			subscriberWrappers = append(subscriberWrappers, transWrapper.NewSubscriberWrapper(publisher))
 		*/
 	}
 

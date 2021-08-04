@@ -7,7 +7,7 @@ import (
 	fmt "fmt"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	_ "github.com/golang/protobuf/ptypes/wrappers"
-	_ "github.com/ygpark2/mboard/service/post/proto/entities"
+	_ "github.com/ygpark2/njro/service/post/proto/entities"
 	proto "google.golang.org/protobuf/proto"
 	math "math"
 )

@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/micro/micro/v3/service/logger"
-	pb "github.com/ygpark2/mboard/service/search/proto"
+	pb "github.com/ygpark2/njro/service/search/proto"
 )
 
 type Search struct{}

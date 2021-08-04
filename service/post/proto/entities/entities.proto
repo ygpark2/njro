@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package mkit.service.post.entities.v1;
 
-option go_package = "github.com/ygpark2/mboard/service/post/proto/entities";
+option go_package = "github.com/ygpark2/njro/service/post/proto/entities";
 option java_multiple_files = true;
 option java_package = "mkit.service.post.entities.v1";
 

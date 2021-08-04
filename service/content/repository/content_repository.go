@@ -6,7 +6,7 @@ import (
 	"github.com/rs/zerolog/log"
 	uuid "github.com/satori/go.uuid"
 
-	content_entities "github.com/ygpark2/mboard/service/content/proto/entities"
+	content_entities "github.com/ygpark2/njro/service/content/proto/entities"
 )
 
 // contentRepository interface

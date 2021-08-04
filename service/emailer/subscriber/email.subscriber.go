@@ -6,8 +6,8 @@ import (
 	"github.com/micro/micro/v3/service/context/metadata"
 	"github.com/rs/zerolog/log"
 
-	emailerPB "github.com/ygpark2/mboard/service/emailer/proto/emailer"
-	"github.com/ygpark2/mboard/service/emailer/service"
+	emailerPB "github.com/ygpark2/njro/service/emailer/proto/emailer"
+	"github.com/ygpark2/njro/service/emailer/service"
 )
 
 // EmailSubscriber is Subscriber

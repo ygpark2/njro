@@ -6,10 +6,10 @@ import (
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
 
-	"github.com/ygpark2/mboard/shared/database"
+	"github.com/ygpark2/njro/shared/database"
 
-	post_entities "github.com/ygpark2/mboard/service/post/proto/entities"
-	configPB "github.com/ygpark2/mboard/shared/proto/config"
+	post_entities "github.com/ygpark2/njro/service/post/proto/entities"
+	configPB "github.com/ygpark2/njro/shared/proto/config"
 )
 
 // postRepository interface
