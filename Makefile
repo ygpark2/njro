@@ -164,7 +164,7 @@ proto proto-%:
 					echo ✓ compiled: $$f; \
 		done \
 	fi
-	@rsync -a github.com/ygpark2/mboard/service/ service/ && rm -Rf github.com
+	@rsync -a github.com/ygpark2/njro/service/ service/ && rm -Rf github.com
 
 proto_shared:
 	@for f in ./shared/proto/**/*.proto; do \

@@ -1,4 +1,4 @@
-module github.com/ygpark2/mboard
+module github.com/ygpark2/njro
 
 go 1.16
 
@@ -43,6 +43,6 @@ require (
 	gorm.io/gorm v1.21.12
 )
 
-// exclude github.com/ygpark2/mboard v0.0.0-20201103090146-2c7cb3e5d3fa
+// exclude github.com/ygpark2/njro v0.0.0-20201103090146-2c7cb3e5d3fa
 
-// replace github.com/ygpark2/mboard/shared => ./shared/
+// replace github.com/ygpark2/njro/shared => ./shared/

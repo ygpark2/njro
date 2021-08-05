@@ -14,5 +14,5 @@ Your can set **Logger** config via Environment Variables: `CONFIGOR_LOG_LEVEL` ,
 
 ## Test
 ```
-CONFIGOR_LOG_LEVEL=info CONFIGOR_LOG_FORMAT=json go test github.com/ygpark2/mboard/shared/logger  -count=1
+CONFIGOR_LOG_LEVEL=info CONFIGOR_LOG_FORMAT=json go test github.com/ygpark2/njro/shared/logger  -count=1
 ```

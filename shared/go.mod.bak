@@ -1,4 +1,4 @@
-module github.com/ygpark2/mboard/shared
+module github.com/ygpark2/njro/shared
 
 go 1.15
 
@@ -14,6 +14,6 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.20.0
 	github.com/xmlking/configor v0.2.2
-	// github.com/ygpark2/mboard v0.0.0-20201030051620-33d7831905d0 // indirect
+	// github.com/ygpark2/njro v0.0.0-20201030051620-33d7831905d0 // indirect
 	google.golang.org/grpc v1.33.1
 )

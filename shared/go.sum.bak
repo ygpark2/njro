@@ -449,9 +449,9 @@ github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q
 github.com/xlab/treeprint v0.0.0-20181112141820-a009c3971eca/go.mod h1:ce1O1j6UtZfjr22oyGxGLbauSBp2YVXpARAosm7dHBg=
 github.com/xmlking/configor v0.2.2 h1:EHpTkLv8f0mdbbQc3IXuGfsTMw5ZkOVy0LXw2qGZvS8=
 github.com/xmlking/configor v0.2.2/go.mod h1:kMD/zLC3GHpBNdZXTufMMaHgYhS698BJI6ou9H49J8Y=
-github.com/ygpark2/mboard v0.0.0-20201030051620-33d7831905d0 h1:ZgPn/Z4z8hZW07qEtNZEeKojDQEu2o/sdlaM8zChR84=
-github.com/ygpark2/mboard v0.0.0-20201030051620-33d7831905d0/go.mod h1:fmWgDtr1nOGZwAxU0HVWdSb9xGfg39wYYIGRTVqypMY=
-github.com/ygpark2/mboard/shared v0.0.0-20201103090146-2c7cb3e5d3fa/go.mod h1:aeM3SKYFkf04fMHO3TxpCqo0su8iWM4Zrw1HO1Mlo6A=
+github.com/ygpark2/njro v0.0.0-20201030051620-33d7831905d0 h1:ZgPn/Z4z8hZW07qEtNZEeKojDQEu2o/sdlaM8zChR84=
+github.com/ygpark2/njro v0.0.0-20201030051620-33d7831905d0/go.mod h1:fmWgDtr1nOGZwAxU0HVWdSb9xGfg39wYYIGRTVqypMY=
+github.com/ygpark2/njro/shared v0.0.0-20201103090146-2c7cb3e5d3fa/go.mod h1:aeM3SKYFkf04fMHO3TxpCqo0su8iWM4Zrw1HO1Mlo6A=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 go.etcd.io/bbolt v1.3.3/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
 go.etcd.io/bbolt v1.3.5/go.mod h1:G5EMThwa9y8QZGBClrRx5EY+Yw9kAhnjy3bSjsnlVTQ=

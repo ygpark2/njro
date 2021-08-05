@@ -6,7 +6,7 @@ MODIFY=Mgithub.com/micro/micro/api/proto/api.proto=github.com/micro/micro/v3/api
 proto:
     
 	protoc --proto_path=. --micro_out=${MODIFY}:. --go_out=${MODIFY}:. proto/post.proto
-	@rsync -a github.com/ygpark2/mboard/service/board/posts/proto/ proto && rm -Rf github.com
+	@rsync -a github.com/ygpark2/njro/service/board/posts/proto/ proto && rm -Rf github.com
 
 .PHONY: build
 build: proto

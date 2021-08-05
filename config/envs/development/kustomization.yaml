@@ -70,14 +70,14 @@ images:
     newName: docker.io/envoyproxy/envoy-alpine
     newTag: v1.15.0
   - name: micro/micro
-    newName: docker.pkg.github.com/ygpark2/mboard/micro
+    newName: docker.pkg.github.com/ygpark2/njro/micro
     newTag: v2.9.3
   - name: xmlking/account-service
-    newName: docker.pkg.github.com/ygpark2/mboard/account-service
+    newName: docker.pkg.github.com/ygpark2/njro/account-service
     newTag: $(IMAGE_VERSION)
   - name: xmlking/emailer-service
-    newName: docker.pkg.github.com/ygpark2/mboard/emailer-service
+    newName: docker.pkg.github.com/ygpark2/njro/emailer-service
     newTag: $(IMAGE_VERSION)
   - name: xmlking/greeter-service
-    newName: docker.pkg.github.com/ygpark2/mboard/greeter-service
+    newName: docker.pkg.github.com/ygpark2/njro/greeter-service
     newTag: $(IMAGE_VERSION)

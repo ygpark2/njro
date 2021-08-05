@@ -16,7 +16,7 @@ proto:
 				--validate_out=lang=go,paths=source_relative:. $$f; \
 				echo ✓ compiled: $$f; \
 	done
-	@rsync -a github.com/ygpark2/mboard/service/account/proto/ proto && rm -Rf github.com
+	@rsync -a github.com/ygpark2/njro/service/account/proto/ proto && rm -Rf github.com
 
 .PHONY: build
 build: proto

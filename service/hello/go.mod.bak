@@ -1,4 +1,4 @@
-module github.com/ygpark2/mboard/service/hello
+module github.com/ygpark2/njro/service/hello
 
 go 1.15
 
