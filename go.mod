@@ -11,6 +11,7 @@ require (
 	github.com/golang/protobuf v1.5.2
 	github.com/google/wire v0.5.0
 	github.com/gosimple/slug v1.9.0
+	github.com/grpc-ecosystem/grpc-gateway v1.14.6 // indirect
 	github.com/infobloxopen/atlas-app-toolkit v0.22.1
 	github.com/infobloxopen/protoc-gen-gorm v0.20.1
 	github.com/jinzhu/gorm v1.9.16
@@ -18,6 +19,7 @@ require (
 	github.com/markbates/pkger v0.17.1
 	github.com/matryer/is v1.3.0 // indirect
 	github.com/micro/go-micro v1.18.0
+	github.com/micro/go-micro/v2 v2.9.0
 	github.com/micro/micro/v3 v3.3.1-0.20210713153811-bb922eccdbd3
 	github.com/micro/services v0.10.0
 	github.com/onsi/gomega v1.11.0 // indirect
@@ -30,13 +32,14 @@ require (
 	github.com/xmlking/configor v0.1.0
 	github.com/xmlking/micro-starter-kit v0.3.7
 	go.uber.org/atomic v1.7.0 // indirect
+	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 	golang.org/x/net v0.0.0-20210813160813-60bc85c4be6d // indirect
 	golang.org/x/sys v0.0.0-20210809222454-d867a43fc93e // indirect
 	golang.org/x/term v0.0.0-20210615171337-6886f2dfbf5b // indirect
 	golang.org/x/text v0.3.7 // indirect
-	google.golang.org/genproto v0.0.0-20210813162853-db860fec028c
-	google.golang.org/grpc v1.40.0-dev.0.20210708170655-30dfb4b933a5
-	google.golang.org/grpc/examples v0.0.0-20210728214646-ad0a2a847cdf // indirect
+	golang.org/x/tools v0.1.5 // indirect
+	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013
+	google.golang.org/grpc v1.29.1
 	google.golang.org/protobuf v1.27.1
 	gorm.io/driver/mysql v1.1.1
 	gorm.io/driver/postgres v1.1.0

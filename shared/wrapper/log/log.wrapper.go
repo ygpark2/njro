@@ -3,9 +3,13 @@ package log
 import (
 	"context"
 
-	"github.com/asim/go-micro/v3/client"
-	"github.com/asim/go-micro/v3/metadata"
-	"github.com/asim/go-micro/v3/server"
+	// "github.com/asim/go-micro/v3/client"
+	// "github.com/asim/go-micro/v3/metadata"
+
+	// "github.com/asim/go-micro/v3/server"
+	"github.com/micro/micro/v3/service/client"
+	"github.com/micro/micro/v3/service/context/metadata"
+	"github.com/micro/micro/v3/service/server"
 	"github.com/rs/zerolog/log"
 )
 

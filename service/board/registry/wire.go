@@ -15,7 +15,7 @@ import (
 )
 
 // NewContainer - create new Container
-func NewContainer(publisher service.Event) *Container {
+func NewContainer(publisher *service.Event) *Container {
 
 	panic(wire.Build(
 		config.GetConfig,

@@ -3,7 +3,7 @@ package transaction
 import (
 	"context"
 
-	"github.com/asim/go-micro/v3/server"
+	"github.com/micro/micro/v3/service/server"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/ptypes/empty"

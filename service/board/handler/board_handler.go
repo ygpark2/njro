@@ -29,11 +29,11 @@ import (
 // boardHandler struct
 type BoardHandler struct {
 	boardRepository repository.BoardRepository
-	event           service.Event
+	event           *service.Event
 }
 
 // NewBoardHandler returns an instance of `BoardServiceHandler`.
-func NewBoardHandler(repo repository.BoardRepository, eve service.Event) boardPB.BoardServiceHandler {
+func NewBoardHandler(repo repository.BoardRepository, eve *service.Event) boardPB.BoardServiceHandler {
 	return &BoardHandler{
 		boardRepository: repo,
 		event:           eve,
