@@ -18,14 +18,14 @@ import (
 )
 
 // Posts struct
-type Posts struct {
+type PostHandler struct {
 	postRepository repository.PostRepository
 	event          *service.Event
 }
 
 // NewPosts returns an instance of `PostServiceHandler`.
-func NewPosts(repo repository.PostRepository, eve *service.Event) postPB.PostServiceHandler {
-	return &Posts{
+func NewPostHandler(repo repository.PostRepository, eve *service.Event) postPB.PostServiceHandler {
+	return &PostHandler{
 		postRepository: repo,
 		event:          eve,
 	}

@@ -30,10 +30,11 @@ require (
 	github.com/xmlking/configor v0.1.0
 	github.com/xmlking/micro-starter-kit v0.3.7
 	go.uber.org/atomic v1.7.0 // indirect
-	golang.org/x/net v0.0.0-20210726213435-c6fcb2dbf985 // indirect
-	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
+	golang.org/x/net v0.0.0-20210813160813-60bc85c4be6d // indirect
+	golang.org/x/sys v0.0.0-20210809222454-d867a43fc93e // indirect
 	golang.org/x/term v0.0.0-20210615171337-6886f2dfbf5b // indirect
-	google.golang.org/genproto v0.0.0-20210726200206-e7812ac95cc0
+	golang.org/x/text v0.3.7 // indirect
+	google.golang.org/genproto v0.0.0-20210813162853-db860fec028c
 	google.golang.org/grpc v1.40.0-dev.0.20210708170655-30dfb4b933a5
 	google.golang.org/grpc/examples v0.0.0-20210728214646-ad0a2a847cdf // indirect
 	google.golang.org/protobuf v1.27.1

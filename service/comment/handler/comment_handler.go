@@ -33,7 +33,7 @@ func NewCommentHandler(repo repository.CommentRepository, eve *service.Event) co
 }
 
 func (h *CommentHandler) Exist(ctx context.Context, req *commentPB.ExistRequest, rsp *commentPB.ExistResponse) error {
-	logger.Info("Received boardHandler.Exist request")
+	logger.Info("Received commentHandler.Exist request")
 	/*
 			google.protobuf.StringValue title = 7 [(gorm.field).tag = { size: 255 not_null: true }];
 		    google.protobuf.StringValue mobile_title = 8 [(gorm.field).tag = { size: 255 not_null: true }];

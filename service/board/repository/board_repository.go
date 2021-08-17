@@ -1,7 +1,8 @@
 package repository
 
 import (
-	"github.com/asim/go-micro/v3/logger"
+	// "github.com/asim/go-micro/v3/logger"
+	"github.com/micro/micro/v3/service/logger"
 
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"

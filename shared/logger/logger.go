@@ -12,7 +12,7 @@ import (
 	"github.com/rs/zerolog/pkgerrors"
 	"google.golang.org/grpc/grpclog"
 
-	mLogger "github.com/micro/micro/v3/service/logger" // TODO: remove
+	mLogger "github.com/asim/go-micro/v3/logger" // TODO: remove
 
 	"github.com/ygpark2/njro/shared/logger/gcp"
 	zeroToGrpcAdopter "github.com/ygpark2/njro/shared/logger/grpc"

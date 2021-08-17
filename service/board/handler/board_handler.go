@@ -3,10 +3,17 @@ package handler
 import (
 	"context"
 
-	"github.com/asim/go-micro/v3"
-	"github.com/asim/go-micro/v3/auth"
-	"github.com/asim/go-micro/v3/errors"
-	"github.com/asim/go-micro/v3/logger"
+	/*
+		"github.com/asim/go-micro/v3"
+		"github.com/asim/go-micro/v3/auth"
+		"github.com/asim/go-micro/v3/errors"
+		"github.com/asim/go-micro/v3/logger"
+	*/
+
+	"github.com/micro/micro/v3/service"
+	"github.com/micro/micro/v3/service/auth"
+	"github.com/micro/micro/v3/service/errors"
+	"github.com/micro/micro/v3/service/logger"
 
 	uuid "github.com/satori/go.uuid"
 	"github.com/thoas/go-funk"
@@ -15,17 +22,18 @@ import (
 	boardPB "github.com/ygpark2/njro/service/board/proto/board"
 	board_entities "github.com/ygpark2/njro/service/board/proto/entities"
 	"github.com/ygpark2/njro/service/board/repository"
+	emailerPB "github.com/ygpark2/njro/service/emailer/proto/emailer"
 	myErrors "github.com/ygpark2/njro/shared/errors"
 )
 
 // boardHandler struct
 type BoardHandler struct {
 	boardRepository repository.BoardRepository
-	event           *micro.Event
+	event           service.Event
 }
 
 // NewBoardHandler returns an instance of `BoardServiceHandler`.
-func NewBoardHandler(repo repository.BoardRepository, eve *micro.Event) boardPB.BoardServiceHandler {
+func NewBoardHandler(repo repository.BoardRepository, eve service.Event) boardPB.BoardServiceHandler {
 	return &BoardHandler{
 		boardRepository: repo,
 		event:           eve,
@@ -127,6 +135,12 @@ func (h *BoardHandler) Create(ctx context.Context, req *boardPB.CreateRequest, r
 
 	if err := h.boardRepository.Create(&model); err != nil {
 		return myErrors.AppError(myErrors.DBE, err)
+	}
+
+	// send email (TODO: async `go h.Event.Publish(...)`)
+	if err := h.event.Publish(ctx, &emailerPB.Message{To: req.Title.GetValue()}); err != nil {
+		logger.Error("Received Event.Publish request error")
+		return myErrors.AppError(myErrors.PSE, err)
 	}
 
 	// send email (TODO: async `go h.Event.Publish(...)`)
