@@ -1,4 +1,0 @@
-// logger setup from micro-strter-kit
-// import "github.com/ygpark2/njro/shared/logger" to `main.go` and all test files.
-// set log level and format in config.yaml
-package logger

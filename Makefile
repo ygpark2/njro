@@ -8,12 +8,9 @@ GITHUB_RELEASES_UI_URL 		:= https://github.com/$(GITHUB_REPO_OWNER)/$(GITHUB_REP
 GITHUB_RELEASES_API_URL 	:= https://api.github.com/repos/$(GITHUB_REPO_OWNER)/$(GITHUB_REPO_NAME)/releases
 GITHUB_RELEASE_ASSET_URL	:= https://uploads.github.com/repos/$(GITHUB_REPO_OWNER)/$(GITHUB_REPO_NAME)/releases
 GITHUB_DEPLOY_API_URL		:= https://api.github.com/repos/$(GITHUB_REPO_OWNER)/$(GITHUB_REPO_NAME)/deployments
-DOCKER_REGISTRY 			:= docker.pkg.github.com
-# DOCKER_REGISTRY 			:= us.gcr.io
-DOCKER_CONTEXT_PATH 		:= $(GITHUB_REPO_OWNER)/$(GITHUB_REPO_NAME)
-# DOCKER_REGISTRY 			:= docker.io
-# DOCKER_CONTEXT_PATH 		:= ygpark2
-GO_MICRO_VERSION 			:= latest
+DOCKER_REGISTRY 			?= docker.io
+DOCKER_REPO_PREFIX 			?= njro
+SERVICES 					:= board post comment account content emailer search tags agent
 
 VERSION					:= $(shell git describe --tags || echo "HEAD")
 GOPATH					:= $(shell go env GOPATH)
@@ -33,7 +30,7 @@ override TYPES:= service
 # Target for running the action
 TARGET = $(word 1,$(subst -, ,$*))
 
-override VERSION_PACKAGE = $(shell go list ./shared/config)
+override VERSION_PACKAGE = $(shell go list ./pkg/config)
 BUILD_FLAGS = $(shell govvv -flags -version $(VERSION) -pkg $(VERSION_PACKAGE))
 
 # $(warning TYPES = $(TYPE), TARGET = $(TARGET))
@@ -166,15 +163,6 @@ proto proto-%:
 	fi
 	@rsync -a github.com/ygpark2/njro/service/ service/ && rm -Rf github.com
 
-proto_shared:
-	@for f in ./shared/proto/**/*.proto; do \
-		protoc -I vendor/github.com/envoyproxy/protoc-gen-validate \
-				--proto_path=.:${GOPATH}/src \
-				--gofast_out=plugins=grpc,paths=source_relative:. \
-				--validate_out=lang=gogo,paths=source_relative:. $$f; \
-				echo ✓ compiled: $$f; \
-	done
-
 proto_lint:
 	@echo "Linting all protos"; \
 	@${GOPATH}/bin/buf check lint
@@ -211,24 +199,9 @@ format format-%:
 	fi
 
 pkger pkger-%:
-ifndef HAS_PKGER
-	$(error "No pkger in PATH". Please install via 'go install github.com/markbates/pkger/cmd/pkger'")
-endif
-	@if [ -z $(TARGET) ]; then \
-		for type in $(TYPES); do \
-			echo "Packaging config for Type: $${type}..."; \
-			for _target in $${type}/*/; do \
-				temp=$${_target%%/}; target=$${temp#*/}; \
-				echo "\tPackaging config for $${target}-$${type}"; \
-				${GOPATH}/bin/pkger -o $${type}/$${target} -include /config/config.yaml -include /config/config.prod.yaml -include /config/certs; \
-			done \
-		done \
-	else \
-		echo "Packaging config for ${TARGET}-${TYPE}..."; \
-		${GOPATH}/bin/pkger -o ${TYPE}/${TARGET} -include /config/config.yaml -include /config/config.prod.yaml -include /config/certs ; \
-	fi
+	@echo "pkger is no longer required with modern pkg/config"
 
-build build-%: pkger-%
+build build-%:
 ifndef HAS_GOVVV
 	$(error "No govvv in PATH". Please install via 'go install github.com/ahmetb/govvv'")
 endif
@@ -298,42 +271,40 @@ deploy/prod:
     -XPOST $(GITHUB_DEPLOY_API_URL) \
     -d '{"ref": "develop", "environment": "production", "payload": { "what": "production deployment to GKE"}}'
 
-# TODO: DOCKER_BUILDKIT=1 docker build --rm
-docker docker-%:
-	@if [ -z $(TARGET) ]; then \
-		echo "Building images for all services..."; \
-		for type in $(TYPES); do \
-			echo "Building Type: $${type}..."; \
-			for _target in $${type}/*/; do \
-				temp=$${_target%%/}; target=$${temp#*/}; \
-				echo "Building Image $${target}-$${type}..."; \
-				docker build --rm \
-				--build-arg BUILDKIT_INLINE_CACHE=1 \
-				--build-arg VERSION=$(VERSION) \
-				--build-arg GO_MICRO_VERSION=$(GO_MICRO_VERSION) \
-				--build-arg TYPE=$${type} \
-				--build-arg TARGET=$${target} \
-				--build-arg DOCKER_REGISTRY=${DOCKER_REGISTRY} \
-				--build-arg DOCKER_CONTEXT_PATH=${DOCKER_CONTEXT_PATH} \
-				--build-arg VCS_REF=$(shell git rev-parse --short HEAD) \
-				--build-arg BUILD_DATE=$(shell date +%FT%T%Z) \
-				-t ${DOCKER_REGISTRY}/${DOCKER_CONTEXT_PATH}/$${target}-$${type}:$(VERSION) .; \
-			done \
-		done \
-	else \
-		echo "Building image for ${TARGET}-${TYPE}..."; \
-		docker build --rm \
-		--build-arg BUILDKIT_INLINE_CACHE=1 \
+# ==============================================================================
+# Docker Targets (Universal Multi-Stage Dockerfile)
+# ==============================================================================
+.PHONY: docker docker-% docker_clean docker_push
+
+# 서비스별 단축 빌드 타겟 (예: make docker-board, make docker-post)
+docker-%:
+	@echo "==> Building Docker image for service: $*"
+	docker build \
+		--build-arg SERVICE=$* \
 		--build-arg VERSION=$(VERSION) \
-		--build-arg GO_MICRO_VERSION=$(GO_MICRO_VERSION) \
-		--build-arg TYPE=${TYPE} \
-		--build-arg TARGET=${TARGET} \
-		--build-arg DOCKER_REGISTRY=${DOCKER_REGISTRY} \
-		--build-arg DOCKER_CONTEXT_PATH=${DOCKER_CONTEXT_PATH} \
-		--build-arg VCS_REF=$(shell git rev-parse --short HEAD) \
-		--build-arg BUILD_DATE=$(shell date +%FT%T%Z) \
-		-t ${DOCKER_REGISTRY}/${DOCKER_CONTEXT_PATH}/${TARGET}-${TYPE}:$(VERSION) .; \
-	fi
+		-t $(DOCKER_REPO_PREFIX)/$*:$(VERSION) \
+		-t $(DOCKER_REPO_PREFIX)/$*:latest .
+
+# 단일 빌드 (예: make docker SERVICE=board) 또는 전체 일괄 빌드 (make docker)
+docker:
+ifdef SERVICE
+	@echo "==> Building Docker image for service: $(SERVICE)"
+	docker build \
+		--build-arg SERVICE=$(SERVICE) \
+		--build-arg VERSION=$(VERSION) \
+		-t $(DOCKER_REPO_PREFIX)/$(SERVICE):$(VERSION) \
+		-t $(DOCKER_REPO_PREFIX)/$(SERVICE):latest .
+else
+	@echo "==> Building Docker images for all services: $(SERVICES)"
+	@for svc in $(SERVICES); do \
+		echo "--> Building $$svc..."; \
+		docker build \
+			--build-arg SERVICE=$$svc \
+			--build-arg VERSION=$(VERSION) \
+			-t $(DOCKER_REPO_PREFIX)/$$svc:$(VERSION) \
+			-t $(DOCKER_REPO_PREFIX)/$$svc:latest . || exit 1; \
+	done
+endif
 
 docker_clean:
 	@echo "Cleaning dangling images..."

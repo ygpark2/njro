@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "njro-community": {
+      "command": "go",
+      "args": ["run", "./agent", "mcp"],
+      "env": {
+        "BOARD_SERVICE_URL": "localhost:8081",
+        "CONTENT_SERVICE_URL": "localhost:8082",
+        "POST_SERVICE_URL": "localhost:8083",
+        "COMMENT_SERVICE_URL": "localhost:8084",
+        "ACCOUNT_SERVICE_URL": "localhost:8085",
+        "EMAILER_SERVICE_URL": "localhost:8086",
+        "SEARCH_SERVICE_URL": "localhost:8087"
+      }
+    }
+  }
+}

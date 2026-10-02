@@ -2,9 +2,11 @@ syntax = "proto3";
 
 package search;
 
-service Search {
-	rpc Index(IndexRequest) returns (IndexResponse) {}
-	rpc Search(SearchRequest) returns (SearchResponse) {}
+option go_package = "github.com/ygpark2/njro/service/search/proto/search";
+
+service SearchService {
+	rpc Index(IndexRequest) returns (IndexResponse);
+	rpc Search(SearchRequest) returns (SearchResponse);
 }
 
 message Document {

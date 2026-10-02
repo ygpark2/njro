@@ -1,98 +1,45 @@
 package main
 
 import (
-	"github.com/micro/micro/v3/service/client"
-	"github.com/micro/micro/v3/service/server"
+	"fmt"
+	"net"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/rs/zerolog/log"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 
-	"github.com/ygpark2/njro/shared/constants"
-
-	"github.com/ygpark2/njro/service/emailer/registry"
-	"github.com/ygpark2/njro/shared/config"
-
-	// myMicro "github.com/ygpark2/njro/shared/util/micro"
-	logWrapper "github.com/ygpark2/njro/shared/wrapper/log"
-	// transWrapper "github.com/ygpark2/njro/shared/wrapper/transaction"
-	validatorWrapper "github.com/ygpark2/njro/shared/wrapper/validator"
+	emailerPB "github.com/ygpark2/njro/service/emailer/proto/emailer"
+	"github.com/ygpark2/njro/service/emailer/service"
 )
 
 func main() {
-	cfg := config.GetConfig()
+	port := 8086
 
-	// Initialize Features
-	var clientWrappers []client.Wrapper
-	var handlerWrappers []server.HandlerWrapper
-	var subscriberWrappers []server.SubscriberWrapper
-
-	// Wrappers are invoked in the order as they added
-	if cfg.Features.Reqlogs.Enabled {
-		clientWrappers = append(clientWrappers, logWrapper.NewClientWrapper())
-		handlerWrappers = append(handlerWrappers, logWrapper.NewHandlerWrapper())
-		subscriberWrappers = append(subscriberWrappers, logWrapper.NewSubscriberWrapper())
-	}
-	//if cfg.Features.Translogs.Enabled {
-	//    topic := cfg.Features.Translogs.Topic
-	//    publisher := micro.NewEvent(topic, client.DefaultClient) // service.Client())
-	//    handlerWrappers = append(handlerWrappers, transWrapper.NewHandlerWrapper(publisher))
-	//    subscriberWrappers = append(subscriberWrappers, transWrapper.NewSubscriberWrapper(publisher))
-	//}
-	if cfg.Features.Validator.Enabled {
-		handlerWrappers = append(handlerWrappers, validatorWrapper.NewHandlerWrapper())
-		subscriberWrappers = append(subscriberWrappers, validatorWrapper.NewSubscriberWrapper())
-	}
-
-	srv := service.NewService(
-		service.Name(constants.EMAILER_SERVICE),
-		service.Version(config.Version),
-		// myMicro.WithTLS(),
-		// Wrappers are applied in reverse order so the last is executed first.
-		service.WrapClient(clientWrappers...),
-		// Adding some optional lifecycle actions
-		service.BeforeStart(func() (err error) {
-			log.Debug().Msg("called BeforeStart")
-			return
-		}),
-		service.BeforeStop(func() (err error) {
-			log.Debug().Msg("called BeforeStop")
-			return
-		}),
-	)
-
-	if cfg.Features.Translogs.Enabled {
-		/*
-			topic := cfg.Features.Translogs.Topic
-			publisher := service.NewEvent(topic, service.Client())
-			handlerWrappers = append(handlerWrappers, transWrapper.NewHandlerWrapper(publisher))
-			subscriberWrappers = append(subscriberWrappers, transWrapper.NewSubscriberWrapper(publisher))
-		*/
-	}
-
-	service.Init(
-		service.WrapHandler(handlerWrappers...),
-		service.WrapSubscriber(subscriberWrappers...),
-	)
-
-	// Initialize DI Container
-	ctn, err := registry.NewContainer(cfg)
-	defer ctn.Clean()
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
-		log.Fatal().Msgf("failed to build container: %v", err)
+		log.Fatal().Err(err).Msgf("failed to listen on port %d", port)
 	}
 
-	emailSubscriber := ctn.Resolve("emailer-subscriber") //.(*subscriber.EmailSubscriber)
-	// Register Struct as Subscriber
-	service.RegisterSubscriber(constants.EMAILER_SERVICE, service.Server(), emailSubscriber)
+	grpcServer := grpc.NewServer()
+	emailerSvc := service.NewEmailerGRPCServer()
+	emailerPB.RegisterEmailerServiceServer(grpcServer, emailerSvc)
+	reflection.Register(grpcServer)
 
-	// Register Function as Subscriber
-	// micro.RegisterSubscriber(constants.EMAILER_SERVICE, service.Server(), subscriber.Handler)
+	stopCh := make(chan os.Signal, 1)
+	signal.Notify(stopCh, syscall.SIGINT, syscall.SIGTERM)
 
-	// register subscriber with queue, each message is delivered to a unique subscriber
-	// micro.RegisterSubscriber("mkit.service.emailer-2", service.Server(), subscriber.Handler, server.SubscriberQueue("queue.pubsub"))
+	go func() {
+		log.Info().Msgf("Starting Emailer gRPC Service on port :%d", port)
+		if err := grpcServer.Serve(lis); err != nil && err != grpc.ErrServerStopped {
+			log.Fatal().Err(err).Msg("failed to serve gRPC")
+		}
+	}()
 
-	println(config.GetBuildInfo())
-
-	// Run service
-	if err := srv.Run(); err != nil {
-		log.Fatal().Err(err).Send()
-	}
+	<-stopCh
+	log.Info().Msg("Shutting down Emailer gRPC server gracefully...")
+	grpcServer.GracefulStop()
+	log.Info().Msg("Emailer server stopped.")
 }

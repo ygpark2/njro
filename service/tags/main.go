@@ -4,7 +4,7 @@ import (
 	"github.com/micro/micro/v3/service"
 	"github.com/micro/micro/v3/service/logger"
 
-	"github.com/micro/services/blog/tags/handler"
+	"github.com/ygpark2/njro/service/tags/handler"
 )
 
 func main() {

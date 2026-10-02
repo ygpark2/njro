@@ -9,7 +9,7 @@ import (
 	"github.com/gosimple/slug"
 	"github.com/micro/micro/v3/service/errors"
 	"github.com/micro/micro/v3/service/logger"
-	gostore "github.com/micro/micro/v3/service/store"
+	"github.com/micro/micro/v3/service/store"
 	pb "github.com/ygpark2/njro/service/tags/proto"
 )
 
@@ -38,7 +38,7 @@ func (t *Tags) IncreaseCount(ctx context.Context, req *pb.IncreaseCountRequest, 
 
 	// read by parent ID + slug, the record is identical in boths places anyway
 	records, err := store.Read(parentID)
-	if err != nil && err != gostore.ErrNotFound {
+	if err != nil && err != store.ErrNotFound {
 		return err
 	}
 
@@ -75,7 +75,7 @@ func (t *Tags) saveTag(tag *Tag) error {
 	}
 
 	// write parentId:slug to enable prefix listing based on parent
-	err = store.Write(&gostore.Record{
+	err = store.Write(&store.Record{
 		Key:   parentID,
 		Value: bytes,
 	})
@@ -84,7 +84,7 @@ func (t *Tags) saveTag(tag *Tag) error {
 	}
 
 	// write type:slug to enable prefix listing based on parent
-	return store.Write(&gostore.Record{
+	return store.Write(&store.Record{
 		Key:   typeID,
 		Value: bytes,
 	})
@@ -100,7 +100,7 @@ func (t *Tags) DecreaseCount(ctx context.Context, req *pb.DecreaseCountRequest, 
 
 	// read by parent ID + slug, the record is identical in boths places anyway
 	records, err := store.Read(parentID)
-	if err != nil && err != gostore.ErrNotFound {
+	if err != nil && err != store.ErrNotFound {
 		return err
 	}
 
@@ -134,7 +134,7 @@ func (t *Tags) List(ctx context.Context, req *pb.ListRequest, rsp *pb.ListRespon
 		return errors.BadRequest("tags.list.input-check", "parent id or type is required")
 	}
 
-	records, err := store.Read("", store.Prefix(key))
+	records, err := store.Read(key, store.ReadPrefix())
 	if err != nil {
 		return err
 	}

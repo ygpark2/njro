@@ -1,0 +1,11 @@
+.git
+.gitignore
+docs/
+*.md
+*.db
+*.sqlite*
+.DS_Store
+tmp/
+temp/
+coverage/
+*.out

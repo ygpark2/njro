@@ -1,91 +1,73 @@
 package main
 
 import (
-	/*
-		"github.com/asim/go-micro/v3/client"
-		"github.com/asim/go-micro/v3/logger"
-		"github.com/asim/go-micro/v3/server"
+	"context"
+	"fmt"
+	"net"
+	"os"
+	"os/signal"
+	"syscall"
 
-		"github.com/asim/go-micro/v3"
-	*/
+	_ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/rs/zerolog/log"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 
-	"github.com/micro/micro/v3/service"
-	"github.com/micro/micro/v3/service/logger"
-
-	// tags "github.com/ygpark2/services/tags/proto"
-
-	"github.com/ygpark2/njro/shared/config"
-	"github.com/ygpark2/njro/shared/constants"
-
-	"github.com/ygpark2/njro/service/board/registry"
-
-	boardPB "github.com/ygpark2/njro/service/board/proto/board"
+	"github.com/ygpark2/njro/service/board/ent"
+	"github.com/ygpark2/njro/service/board/ent/proto/entpb"
+	"github.com/ygpark2/njro/pkg/config"
 )
 
 func main() {
 	cfg := config.GetConfig()
+	port := 8081
 
-	// Initialize Features
-	// var clientWrappers []client.Wrapper
-	// var handlerWrappers []server.HandlerWrapper
-	// var subscriberWrappers []server.SubscriberWrapper
-
-	// Wrappers are invoked in the order as they added
-	if cfg.Features.Reqlogs.Enabled {
-		// clientWrappers = append(clientWrappers, logWrapper.NewClientWrapper())
-		// handlerWrappers = append(handlerWrappers, logWrapper.NewHandlerWrapper())
-		// subscriberWrappers = append(subscriberWrappers, logWrapper.NewSubscriberWrapper())
+	// 1. Initialize Ent Client
+	dialect := "sqlite3"
+	dsn := "file:board.db?cache=shared&_fk=1"
+	if cfg.Database != nil && cfg.Database.Host != "" {
+		if dbDsn, err := cfg.Database.DSN(); err == nil && dbDsn != "" {
+			dsn = dbDsn
+			dialect = "postgres"
+		}
 	}
 
-	logger.Debug("++++++++++++++++++++++ start auth start ++++++++++++++++++++++++++++++")
-	// setupAuthForService("admin", "micro")
-	logger.Debug("++++++++++++++++++++++ end auth start ++++++++++++++++++++++++++++++")
-
-	// Create the service
-	srv := service.New(
-		service.Name(constants.BOARD_SERVICE),
-		service.Version(config.Version),
-
-		// Adding some optional lifecycle actions
-		service.BeforeStart(func() (err error) {
-			logger.Debug("called BeforeStart")
-			return
-		}),
-
-		service.BeforeStop(func() (err error) {
-			logger.Debug("called BeforeStop")
-			return
-		}),
-
-		// micro.WrapHandler(ctn.BoardHandler),
-	)
-
-	srv.Init(
-	// micro.WrapHandler(handlerWrappers...),
-	// micro.WrapSubscriber(subscriberWrappers...),
-	)
-
-	// Publisher publish to "mkit.service.emailer"
-	publisher := service.NewEvent(constants.EMAILER_SERVICE)
-	// greeterSrv Client to call "mkit.service.greeter"
-	// greeterSrvClient := greeterPB.NewGreeterService(constants.GREETER_SERVICE, srv.Client())
-
-	logger.Debug("++++++++++++++++++++++ start NewContainer ++++++++++++++++++++++++++++++")
-	// Initialize DI Container
-	ctn := registry.NewContainer(publisher)
-
-	// Register Handler
-	/*
-		srv.Handle(ctn.BoardHandler)
-		srv.Handle(&handler.Posts{
-			Tags: tags.NewTagsService("tags", srv.Client()),
-		})
-	*/
-
-	boardPB.RegisterBoardServiceHandler(srv.Server(), ctn.BoardHandler)
-
-	// Run service
-	if err := srv.Run(); err != nil {
-		logger.Fatal(err)
+	client, err := ent.Open(dialect, dsn)
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed opening connection to database")
 	}
+	defer client.Close()
+
+	// 2. Auto-migration
+	if err := client.Schema.Create(context.Background()); err != nil {
+		log.Fatal().Err(err).Msg("failed creating schema resources")
+	}
+
+	// 3. Setup gRPC Listener
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+	if err != nil {
+		log.Fatal().Err(err).Msgf("failed to listen on port %d", port)
+	}
+
+	grpcServer := grpc.NewServer()
+	boardSvc := entpb.NewBoardService(client)
+	entpb.RegisterBoardServiceServer(grpcServer, boardSvc)
+	reflection.Register(grpcServer)
+
+	// 4. Graceful Shutdown
+	stopCh := make(chan os.Signal, 1)
+	signal.Notify(stopCh, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		log.Info().Msgf("Starting Board gRPC Service on port :%d (dialect: %s)", port, dialect)
+		if err := grpcServer.Serve(lis); err != nil && err != grpc.ErrServerStopped {
+			log.Fatal().Err(err).Msg("failed to serve gRPC")
+		}
+	}()
+
+	<-stopCh
+	log.Info().Msg("Shutting down Board gRPC server gracefully...")
+	grpcServer.GracefulStop()
+	log.Info().Msg("Board server stopped.")
 }

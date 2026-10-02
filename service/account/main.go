@@ -1,103 +1,69 @@
 package main
 
 import (
-	"github.com/asim/go-micro/v3"
-	"github.com/asim/go-micro/v3/client"
-	"github.com/asim/go-micro/v3/server"
+	"context"
+	"fmt"
+	"net"
+	"os"
+	"os/signal"
+	"syscall"
 
+	_ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog/log"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 
-	"github.com/ygpark2/njro/shared/config"
-	"github.com/ygpark2/njro/shared/constants"
-
-	logWrapper "github.com/ygpark2/njro/shared/wrapper/log"
-	validatorWrapper "github.com/ygpark2/njro/shared/wrapper/validator"
-
-	"github.com/ygpark2/njro/service/account/handler"
-	"github.com/ygpark2/njro/service/account/registry"
-	"github.com/ygpark2/njro/service/account/repository"
-
-	profilePB "github.com/ygpark2/njro/service/account/proto/profile"
-	userPB "github.com/ygpark2/njro/service/account/proto/user"
-	greeterPB "github.com/ygpark2/njro/service/greeter/proto/greeter"
+	"github.com/ygpark2/njro/service/account/ent"
+	"github.com/ygpark2/njro/service/account/ent/proto/entpb"
+	"github.com/ygpark2/njro/pkg/config"
 )
 
 func main() {
 	cfg := config.GetConfig()
+	port := 8085
 
-	// Initialize Features
-	var clientWrappers []client.Wrapper
-	var handlerWrappers []server.HandlerWrapper
-	var subscriberWrappers []server.SubscriberWrapper
-
-	// Wrappers are invoked in the order as they added
-	if cfg.Features.Reqlogs.Enabled {
-		clientWrappers = append(clientWrappers, logWrapper.NewClientWrapper())
-		handlerWrappers = append(handlerWrappers, logWrapper.NewHandlerWrapper())
-		subscriberWrappers = append(subscriberWrappers, logWrapper.NewSubscriberWrapper())
-	}
-
-	/*
-		if cfg.Features.Translogs.Enabled {
-			topic := cfg.Features.Translogs.Topic
-			publisher := micro.NewEvent(topic, client.DefaultClient) // service.Client())
-			handlerWrappers = append(handlerWrappers, transWrapper.NewHandlerWrapper(publisher))
-			subscriberWrappers = append(subscriberWrappers, transWrapper.NewSubscriberWrapper(publisher))
+	dialect := "sqlite3"
+	dsn := "file:account.db?cache=shared&_fk=1"
+	if cfg.Database != nil && cfg.Database.Host != "" {
+		if dbDsn, err := cfg.Database.DSN(); err == nil && dbDsn != "" {
+			dsn = dbDsn
+			dialect = "postgres"
 		}
-	*/
-
-	if cfg.Features.Validator.Enabled {
-		handlerWrappers = append(handlerWrappers, validatorWrapper.NewHandlerWrapper())
-		subscriberWrappers = append(subscriberWrappers, validatorWrapper.NewSubscriberWrapper())
 	}
 
-	service := micro.NewService(
-		micro.Name(constants.ACCOUNT_SERVICE),
-		micro.Version(config.Version),
-		// myMicro.WithTLS(),
-		// Wrappers are applied in reverse order so the last is executed first.
-		// service.WrapClient(clientWrappers...),
-		// Adding some optional lifecycle actions
-		micro.BeforeStart(func() (err error) {
-			log.Debug().Msg("called BeforeStart")
-			return
-		}),
-		micro.BeforeStop(func() (err error) {
-			log.Debug().Msg("called BeforeStop")
-			return
-		}),
-	)
-
-	service.Init(
-		micro.WrapHandler(handlerWrappers...),
-		micro.WrapSubscriber(subscriberWrappers...),
-	)
-
-	// Initialize DI Container
-	ctn, err := registry.NewContainer(cfg)
-	defer ctn.Clean()
+	client, err := ent.Open(dialect, dsn)
 	if err != nil {
-		log.Fatal().Msgf("failed to build container: %v", err)
+		log.Fatal().Err(err).Msg("failed opening connection to database")
+	}
+	defer client.Close()
+
+	if err := client.Schema.Create(context.Background()); err != nil {
+		log.Fatal().Err(err).Msg("failed creating schema resources")
 	}
 
-	// Publisher publish to "mkit.service.emailer"
-	publisher := micro.NewEvent(constants.EMAILER_SERVICE, service.Client())
-
-	// greeterSrv Client to call "mkit.service.greeter"
-	greeterSrvClient := greeterPB.NewGreeterService(constants.GREETER_SERVICE, service.Client())
-
-	// // Handlers
-	userHandler := handler.NewUserHandler(ctn.Resolve("user-repository").(repository.UserRepository), publisher, greeterSrvClient)
-	profileHandler := ctn.Resolve("profile-handler").(profilePB.ProfileServiceHandler)
-
-	// Register Handlers
-	userPB.RegisterUserServiceHandler(service.Server(), userHandler)
-	profilePB.RegisterProfileServiceHandler(service.Server(), profileHandler)
-
-	println(config.GetBuildInfo())
-
-	// Run service
-	if err := service.Run(); err != nil {
-		log.Fatal().Err(err).Send()
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+	if err != nil {
+		log.Fatal().Err(err).Msgf("failed to listen on port %d", port)
 	}
+
+	grpcServer := grpc.NewServer()
+	userSvc := entpb.NewUserService(client)
+	entpb.RegisterUserServiceServer(grpcServer, userSvc)
+	reflection.Register(grpcServer)
+
+	stopCh := make(chan os.Signal, 1)
+	signal.Notify(stopCh, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		log.Info().Msgf("Starting Account/User gRPC Service on port :%d (dialect: %s)", port, dialect)
+		if err := grpcServer.Serve(lis); err != nil && err != grpc.ErrServerStopped {
+			log.Fatal().Err(err).Msg("failed to serve gRPC")
+		}
+	}()
+
+	<-stopCh
+	log.Info().Msg("Shutting down Account gRPC server gracefully...")
+	grpcServer.GracefulStop()
+	log.Info().Msg("Account server stopped.")
 }
