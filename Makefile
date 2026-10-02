@@ -10,7 +10,7 @@ GITHUB_RELEASE_ASSET_URL	:= https://uploads.github.com/repos/$(GITHUB_REPO_OWNER
 GITHUB_DEPLOY_API_URL		:= https://api.github.com/repos/$(GITHUB_REPO_OWNER)/$(GITHUB_REPO_NAME)/deployments
 DOCKER_REGISTRY 			?= docker.io
 DOCKER_REPO_PREFIX 			?= njro
-SERVICES 					:= board post comment account content emailer search tags agent
+SERVICES 					:= board post comment account content emailer search agent
 
 VERSION					:= $(shell git describe --tags || echo "HEAD")
 GOPATH					:= $(shell go env GOPATH)

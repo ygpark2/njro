@@ -26,9 +26,9 @@
                          └─────────────────────────────┘
 
          ┌────────────────────────────────────────┬───────────────────────────────────────┐
-         ▼                                        ▼                                       ▼
-  [service/emailer]                        [service/search]                         [service/tags]
-  (표준 Buf + gRPC)                       (표준 Buf + gRPC)                        (표준 Buf + gRPC)
+         ▼                                        ▼
+  [service/emailer]                        [service/search]
+  (표준 Buf + gRPC)                       (표준 Buf + gRPC)
 ```
 
 ### 1. 컴포넌트 및 마이크로서비스 목록
