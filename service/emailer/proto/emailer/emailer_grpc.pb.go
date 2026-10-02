@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             (unknown)
-// source: proto/emailer/emailer.proto
+// source: service/emailer/proto/emailer/emailer.proto
 
 package emailer
 
@@ -117,5 +117,5 @@ var EmailerService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/emailer/emailer.proto",
+	Metadata: "service/emailer/proto/emailer/emailer.proto",
 }

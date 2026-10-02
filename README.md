@@ -89,14 +89,14 @@ cd service/board/ent/proto && go generate ./...
 ```
 
 ### 2. Buf 기반 서비스 (`emailer`, `search`)
-`.proto` 인터페이스 정의를 수정한 후 `buf generate`를 실행합니다.
+루트의 `buf.yaml`과 `buf.gen.yaml`을 통해 별도의 복잡한 protoc 플러그인 설치 없이 표준 BSR 원격 플러그인으로 코드를 생성합니다.
 
 ```bash
-# 예: service/emailer
-cd service/emailer && buf generate
+# Proto 린트 검사
+make buf-lint        # 또는 buf lint
 
-# 예: service/search
-cd service/search && buf generate
+# Go Proto 및 gRPC 코드 일괄 생성
+make buf-generate    # 또는 buf generate
 ```
 
 ---
@@ -189,6 +189,9 @@ make docker_clean      # Dangling 이미지 및 불필요한 레이어 정리
 * **`agent/client/`**: 7개 백엔드 마이크로서비스(`board`, `post`, `content`, `comment`, `account`, `emailer`, `search`)로의 고성능 gRPC 클라이언트 커넥션 풀 및 UUID 헬퍼 관리.
 * **`agent/mcp/`**: Anthropic의 표준 Model Context Protocol (MCP) 규격(2024-11-05)을 준수하는 JSON-RPC 2.0 서버 및 10개 도구 정의/디스패처.
 * **`agent/orchestrator/`**: 다단계 ReAct / Function Calling AI 에이전트 루프와 OpenAI 호환 LLM 클라이언트 및 스마트 오프라인 Mock LLM 내장.
+* **`agent/moderator/`**: 유해 게시글/스팸을 자동 탐지하여 블라인드 처리하고 작성자에게 경고 메일을 발송하는 운영 에이전트.
+* **`agent/curator/`**: 검색 서비스(Bleve)와 연동하여 방대한 커뮤니티 지식을 요약 및 인용 답변하는 RAG 큐레이터 에이전트.
+* **`pkg/event/`**: 실시간 백그라운드 처리를 위한 도메인 이벤트 발행/구독(Pub/Sub) 인메모리 이벤트 버스.
 
 ### 3. 실행 모드 및 사용법
 
@@ -203,11 +206,21 @@ go run ./agent chat "커뮤니티 공지사항 검색해줘"
 # 외부 LLM(OpenAI/Claude/Ollama) 연동 시:
 OPENAI_API_KEY="sk-..." LLM_MODEL="gpt-4o" go run ./agent chat "자유게시판에 테스트 공지글 올려줘"
 
-# 3. Model Context Protocol (MCP) 표준 서버 모드 실행 (stdio 기반)
+# 3. 커뮤니티 콘텐츠 안전성 검사 (Moderator Agent)
+go run ./agent moderate <post_id> "게시글 제목" "게시글 본문" "author@example.com"
+
+# 4. RAG 기반 지식 큐레이션 및 질의 응답 (Curator Agent)
+go run ./agent curate "MSA 분산 트랜잭션 구현 방법"
+
+# 5. 실시간 도메인 이벤트 수신 및 비동기 모더레이션 대기 (Event-Driven Watcher)
+go run ./agent watch
+
+# 6. Model Context Protocol (MCP) 표준 서버 모드 실행 (stdio 기반)
 go run ./agent mcp
 
-# 4. 에이전트 및 MCP 프로토콜 단위 테스트 실행
+# 7. 에이전트 및 MCP 프로토콜 단위 테스트 실행
 go test -v ./agent/...
+go test -v ./pkg/event/...
 ```
 
 ### 4. Claude Desktop 및 Cursor 연동

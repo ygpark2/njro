@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.12
 // 	protoc        (unknown)
-// source: proto/emailer/emailer.proto
+// source: service/emailer/proto/emailer/emailer.proto
 
 package emailer
 
@@ -33,7 +33,7 @@ type SendEmailRequest struct {
 
 func (x *SendEmailRequest) Reset() {
 	*x = SendEmailRequest{}
-	mi := &file_proto_emailer_emailer_proto_msgTypes[0]
+	mi := &file_service_emailer_proto_emailer_emailer_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +45,7 @@ func (x *SendEmailRequest) String() string {
 func (*SendEmailRequest) ProtoMessage() {}
 
 func (x *SendEmailRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_emailer_emailer_proto_msgTypes[0]
+	mi := &file_service_emailer_proto_emailer_emailer_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *SendEmailRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendEmailRequest.ProtoReflect.Descriptor instead.
 func (*SendEmailRequest) Descriptor() ([]byte, []int) {
-	return file_proto_emailer_emailer_proto_rawDescGZIP(), []int{0}
+	return file_service_emailer_proto_emailer_emailer_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *SendEmailRequest) GetTo() string {
@@ -99,7 +99,7 @@ type SendEmailResponse struct {
 
 func (x *SendEmailResponse) Reset() {
 	*x = SendEmailResponse{}
-	mi := &file_proto_emailer_emailer_proto_msgTypes[1]
+	mi := &file_service_emailer_proto_emailer_emailer_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -111,7 +111,7 @@ func (x *SendEmailResponse) String() string {
 func (*SendEmailResponse) ProtoMessage() {}
 
 func (x *SendEmailResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_emailer_emailer_proto_msgTypes[1]
+	mi := &file_service_emailer_proto_emailer_emailer_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -124,7 +124,7 @@ func (x *SendEmailResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendEmailResponse.ProtoReflect.Descriptor instead.
 func (*SendEmailResponse) Descriptor() ([]byte, []int) {
-	return file_proto_emailer_emailer_proto_rawDescGZIP(), []int{1}
+	return file_service_emailer_proto_emailer_emailer_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *SendEmailResponse) GetSuccess() bool {
@@ -153,7 +153,7 @@ type Message struct {
 
 func (x *Message) Reset() {
 	*x = Message{}
-	mi := &file_proto_emailer_emailer_proto_msgTypes[2]
+	mi := &file_service_emailer_proto_emailer_emailer_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -165,7 +165,7 @@ func (x *Message) String() string {
 func (*Message) ProtoMessage() {}
 
 func (x *Message) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_emailer_emailer_proto_msgTypes[2]
+	mi := &file_service_emailer_proto_emailer_emailer_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -178,7 +178,7 @@ func (x *Message) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message.ProtoReflect.Descriptor instead.
 func (*Message) Descriptor() ([]byte, []int) {
-	return file_proto_emailer_emailer_proto_rawDescGZIP(), []int{2}
+	return file_service_emailer_proto_emailer_emailer_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Message) GetTo() string {
@@ -209,11 +209,11 @@ func (x *Message) GetBody() string {
 	return ""
 }
 
-var File_proto_emailer_emailer_proto protoreflect.FileDescriptor
+var File_service_emailer_proto_emailer_emailer_proto protoreflect.FileDescriptor
 
-const file_proto_emailer_emailer_proto_rawDesc = "" +
+const file_service_emailer_proto_emailer_emailer_proto_rawDesc = "" +
 	"\n" +
-	"\x1bproto/emailer/emailer.proto\x12\x17mkit.service.emailer.v1\"d\n" +
+	"+service/emailer/proto/emailer/emailer.proto\x12\x17mkit.service.emailer.v1\"d\n" +
 	"\x10SendEmailRequest\x12\x0e\n" +
 	"\x02to\x18\x01 \x01(\tR\x02to\x12\x12\n" +
 	"\x04from\x18\x02 \x01(\tR\x04from\x12\x18\n" +
@@ -232,24 +232,24 @@ const file_proto_emailer_emailer_proto_rawDesc = "" +
 	"\x17mkit.service.emailer.v1P\x01Z5github.com/ygpark2/njro/service/emailer/proto/emailerb\x06proto3"
 
 var (
-	file_proto_emailer_emailer_proto_rawDescOnce sync.Once
-	file_proto_emailer_emailer_proto_rawDescData []byte
+	file_service_emailer_proto_emailer_emailer_proto_rawDescOnce sync.Once
+	file_service_emailer_proto_emailer_emailer_proto_rawDescData []byte
 )
 
-func file_proto_emailer_emailer_proto_rawDescGZIP() []byte {
-	file_proto_emailer_emailer_proto_rawDescOnce.Do(func() {
-		file_proto_emailer_emailer_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_emailer_emailer_proto_rawDesc), len(file_proto_emailer_emailer_proto_rawDesc)))
+func file_service_emailer_proto_emailer_emailer_proto_rawDescGZIP() []byte {
+	file_service_emailer_proto_emailer_emailer_proto_rawDescOnce.Do(func() {
+		file_service_emailer_proto_emailer_emailer_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_service_emailer_proto_emailer_emailer_proto_rawDesc), len(file_service_emailer_proto_emailer_emailer_proto_rawDesc)))
 	})
-	return file_proto_emailer_emailer_proto_rawDescData
+	return file_service_emailer_proto_emailer_emailer_proto_rawDescData
 }
 
-var file_proto_emailer_emailer_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_proto_emailer_emailer_proto_goTypes = []any{
+var file_service_emailer_proto_emailer_emailer_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_service_emailer_proto_emailer_emailer_proto_goTypes = []any{
 	(*SendEmailRequest)(nil),  // 0: mkit.service.emailer.v1.SendEmailRequest
 	(*SendEmailResponse)(nil), // 1: mkit.service.emailer.v1.SendEmailResponse
 	(*Message)(nil),           // 2: mkit.service.emailer.v1.Message
 }
-var file_proto_emailer_emailer_proto_depIdxs = []int32{
+var file_service_emailer_proto_emailer_emailer_proto_depIdxs = []int32{
 	0, // 0: mkit.service.emailer.v1.EmailerService.SendEmail:input_type -> mkit.service.emailer.v1.SendEmailRequest
 	1, // 1: mkit.service.emailer.v1.EmailerService.SendEmail:output_type -> mkit.service.emailer.v1.SendEmailResponse
 	1, // [1:2] is the sub-list for method output_type
@@ -259,26 +259,26 @@ var file_proto_emailer_emailer_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_proto_emailer_emailer_proto_init() }
-func file_proto_emailer_emailer_proto_init() {
-	if File_proto_emailer_emailer_proto != nil {
+func init() { file_service_emailer_proto_emailer_emailer_proto_init() }
+func file_service_emailer_proto_emailer_emailer_proto_init() {
+	if File_service_emailer_proto_emailer_emailer_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_emailer_emailer_proto_rawDesc), len(file_proto_emailer_emailer_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_service_emailer_proto_emailer_emailer_proto_rawDesc), len(file_service_emailer_proto_emailer_emailer_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_emailer_emailer_proto_goTypes,
-		DependencyIndexes: file_proto_emailer_emailer_proto_depIdxs,
-		MessageInfos:      file_proto_emailer_emailer_proto_msgTypes,
+		GoTypes:           file_service_emailer_proto_emailer_emailer_proto_goTypes,
+		DependencyIndexes: file_service_emailer_proto_emailer_emailer_proto_depIdxs,
+		MessageInfos:      file_service_emailer_proto_emailer_emailer_proto_msgTypes,
 	}.Build()
-	File_proto_emailer_emailer_proto = out.File
-	file_proto_emailer_emailer_proto_goTypes = nil
-	file_proto_emailer_emailer_proto_depIdxs = nil
+	File_service_emailer_proto_emailer_emailer_proto = out.File
+	file_service_emailer_proto_emailer_emailer_proto_goTypes = nil
+	file_service_emailer_proto_emailer_emailer_proto_depIdxs = nil
 }

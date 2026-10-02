@@ -38,7 +38,7 @@ BUILD_FLAGS = $(shell govvv -flags -version $(VERSION) -pkg $(VERSION_PACKAGE))
 # $(warning VERSION_PACKAGE = $(VERSION_PACKAGE), BUILD_FLAGS = $(BUILD_FLAGS))
 
 .PHONY: all tools, check_dirty, clean, update_deps
-.PHONY: proto proto-% proto_lint proto_format
+.PHONY: proto proto-% proto_lint proto_format buf-lint buf-generate
 .PHONY: lint lint-%, gomod_lint
 .PHONY: format format-%
 .PHONY: pkger pkger-%
@@ -133,7 +133,11 @@ update_deps:
 	go mod tidy
 	go mod vendor
 
-# FIXME: protoc-gen-gorm is dumb. it creates github.com dir
+buf-lint:
+	buf lint
+
+buf-generate:
+	buf generate
 
 proto proto-%:
 	@if [ -z $(TARGET) ]; then \
